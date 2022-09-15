@@ -22,9 +22,9 @@ class _LogInState extends ConsumerState<LogIn> {
     Future<void> loginAndAuth() async {
       final valid = formKey.currentState?.validate();
       if (valid!) {
-        var token = await auth.Authenticate(_username!, _password!);
+        var token = await auth.authenticate(_username!, _password!);
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: ((context) => Text("register"))));
+            MaterialPageRoute(builder: ((context) => const Text("register"))));
       }
     }
 

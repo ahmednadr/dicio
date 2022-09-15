@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:test/api/scan.dart';
 
-class Expanding_dot extends StatefulWidget {
+class ExpandingDot extends StatefulWidget {
   AnimationController controller;
   Scan scan;
-  Expanding_dot({Key? key, required this.controller, required this.scan})
+  ExpandingDot({Key? key, required this.controller, required this.scan})
       : super(key: key);
 
   @override
-  State<Expanding_dot> createState() =>
-      _Expanding_dotState(controller: controller, scan: scan);
+  State<ExpandingDot> createState() =>
+      _ExpandingDotState(controller: controller, scan: scan);
 }
 
-class _Expanding_dotState extends State<Expanding_dot> {
+class _ExpandingDotState extends State<ExpandingDot> {
   double end = 1;
   AnimationController controller;
   Scan scan;
-  _Expanding_dotState({required this.controller, required this.scan});
+  _ExpandingDotState({required this.controller, required this.scan});
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
@@ -29,7 +29,13 @@ class _Expanding_dotState extends State<Expanding_dot> {
                 setState(() {
                   end = 0.9;
                   controller.repeat(reverse: true);
-                  scan.scanNetwork(8123);
+                  try {
+                    scan.scanNetwork(8123);
+                  } on Exception {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                            "Make sure you are connected to your home wifi")));
+                  }
                 });
               },
               child: Stack(

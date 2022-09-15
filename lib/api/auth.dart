@@ -22,22 +22,21 @@ class Auth {
   }
 
   /// Takes the [username] and [password]. returns a new long lived token for this user.
-  Future<String> Authenticate(String username, String password) async {
-    var token;
+  Future<String> authenticate(String username, String password) async {
+    String token;
     // try {
-    print(username + password);
-    String auth_token =
-        await _get_auth_token(username, password, await _get_flow_id());
-    token = await _connect_ws(await _get_access_token(auth_token));
+    String authToken =
+        await _getAuthToken(username, password, await _getFlowId());
+    token = await _connectWS(await _getAccessToken(authToken));
     // } catch (e) {
     /// TODO: handle network exceptions and auth_invalid from ws and auth error from the rest api.
     // }
-    assert(token != null);
+    assert(token != "");
     return token;
   }
 
   /// returns a [flow_id] thats refers to the login session.
-  Future<String> _get_flow_id() async {
+  Future<String> _getFlowId() async {
     Response r = await Dio().post("$address/auth/login_flow", data: {
       "client_id": "http://acs",
       "handler": ["homeassistant", null],
@@ -46,10 +45,10 @@ class Auth {
     return r.data['flow_id'];
   }
 
-  /// Takes [username], [password] and login session's [flow_id] and sends an auth request.
+  /// Takes [username], [password] and login session's [flowId] and sends an auth request.
   /// returns an [auth_token] if the auth was successful.
-  Future<String> _get_auth_token(username, password, flow_id) async {
-    Response r = await Dio().post("$address/auth/login_flow/$flow_id", data: {
+  Future<String> _getAuthToken(username, password, flowId) async {
+    Response r = await Dio().post("$address/auth/login_flow/$flowId", data: {
       "username": "$username",
       "password": "$password",
       "client_id": "http://acs"
@@ -57,29 +56,29 @@ class Auth {
     return r.data['result'];
   }
 
-  /// Takes the [auth_token] and returns a websocket [access_token].
-  Future<String> _get_access_token(auth_token) async {
-    var dio = Dio();
-    Response r = await Dio().post(
+  /// Takes the [authToken] and returns a websocket [access_token].
+  Future<String> _getAccessToken(authToken) async {
+    final dio = Dio();
+    Response r = await dio.post(
       "$address/auth/token",
       options: Options(contentType: Headers.formUrlEncodedContentType),
       data:
-          'grant_type=authorization_code&code=$auth_token&client_id=http://acs',
+          'grant_type=authorization_code&code=$authToken&client_id=http://acs',
     );
     return r.data['access_token'];
   }
 
-  /// Use [access_token] to connect to a server via websocket and fetch a longlived token.
-  Future<String> _connect_ws(access_token) async {
+  /// Use [accessToken] to connect to a server via websocket and fetch a longlived token.
+  Future<String> _connectWS(accessToken) async {
     var channel = IOWebSocketChannel.connect('ws://$ip:$port/api/websocket');
-    var token = null;
+    String token = '';
 
-    void __auth_ws() {
+    void __authWS() {
       channel.sink
-          .add(jsonEncode({"type": "auth", "access_token": "$access_token"}));
+          .add(jsonEncode({"type": "auth", "access_token": "$accessToken"}));
     }
 
-    void __get_livelong_token() {
+    void __getLivelongToken() {
       channel.sink.add(jsonEncode({
         "id": "11",
         "type": "auth/long_lived_access_token",
@@ -89,7 +88,7 @@ class Auth {
       }));
     }
 
-    void __invaild_auth_ws() {
+    void __invaildAuthWS() {
       throw Exception("Authentication invalid");
     }
 
@@ -97,13 +96,13 @@ class Auth {
       var json = jsonDecode(event);
       switch (json['type']) {
         case "auth_ok":
-          __get_livelong_token();
+          __getLivelongToken();
           break;
         case "auth_required":
-          __auth_ws();
+          __authWS();
           break;
         case "auth_invalid":
-          __invaild_auth_ws();
+          __invaildAuthWS();
           break;
         case "result":
           token = (json['result']);

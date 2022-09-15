@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test/api/scan.dart';
-import 'Ring.dart';
-import 'Expanding dot.dart';
-import 'ScaleAndFade.dart';
+import 'ring.dart';
+import 'expanding_dot.dart';
+import 'scale_and_fade.dart';
 
-class scanAnimation extends StatefulWidget {
+class ScanAnimation extends StatefulWidget {
   Scan scan;
-  scanAnimation({Key? key, required this.scan}) : super(key: key);
+  ScanAnimation({Key? key, required this.scan}) : super(key: key);
 
   @override
-  State<scanAnimation> createState() => _scanAnimationState(scan);
+  State<ScanAnimation> createState() => _ScanAnimationState(scan);
 }
 
-class _scanAnimationState extends State<scanAnimation>
+class _ScanAnimationState extends State<ScanAnimation>
     with TickerProviderStateMixin {
   Scan scan;
-  _scanAnimationState(this.scan);
+  _ScanAnimationState(this.scan);
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 1),
     vsync: this,
@@ -35,7 +34,7 @@ class _scanAnimationState extends State<scanAnimation>
         width: 270,
         child: ScaleAndFade(
           controller: _controller,
-          child: ring(diameter: 270),
+          child: Ring(diameter: 270),
           fadeBothWays: false,
         ),
       ),
@@ -46,12 +45,12 @@ class _scanAnimationState extends State<scanAnimation>
           width: 230,
           child: ScaleAndFade(
             controller: _controller,
-            child: ring(diameter: 230),
+            child: Ring(diameter: 230),
             fadeBothWays: true,
           ),
         ),
       ),
-      Expanding_dot(controller: _controller, scan: scan)
+      ExpandingDot(controller: _controller, scan: scan)
     ]);
   }
 }

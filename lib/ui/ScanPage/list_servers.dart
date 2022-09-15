@@ -43,10 +43,11 @@ class ListServers extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (index != ips.length - 1)
-                      const Divider(
-                        color: Colors.black,
-                      )
+                    (index != ips.length - 1)
+                        ? const Divider(
+                            color: Colors.black,
+                          )
+                        : const Padding(padding: EdgeInsets.only(bottom: 10.0))
                   ],
                 );
               }),

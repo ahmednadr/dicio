@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ring extends StatelessWidget {
+class Ring extends StatelessWidget {
   double diameter;
-  ring({Key? key, required this.diameter}) : super(key: key);
+  Ring({Key? key, required this.diameter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

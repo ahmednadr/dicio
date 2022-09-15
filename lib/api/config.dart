@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -36,7 +35,7 @@ class Config extends ChangeNotifier {
   Future<CurrentIpState> initConfig() async {
     _isInitedController.add(false);
     final box = await Hive.openBox(configBox);
-    if (box.containsKey(activeIpKey) || await box.get(activeIpKey) == '') {
+    if (!box.containsKey(activeIpKey) || await box.get(activeIpKey) == '') {
       _configState = CurrentIpState.noIp;
       return configState;
     }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test/api/scan.dart';
-import 'scanAnimation.dart';
-import 'ListServers.dart';
+import 'scan_animation.dart';
+import 'list_servers.dart';
 
 class ScanPage extends ConsumerStatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
   @override
   Widget build(BuildContext context) {
     final scan = ref.watch(scanProvider);
-    Widget _child = scanAnimation(scan: scan);
+    Widget _child = ScanAnimation(scan: scan);
 
     if (scan.ips.isNotEmpty) {
       setState(() {
