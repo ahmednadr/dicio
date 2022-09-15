@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test/api/config.dart';
 import 'package:test/api/scan.dart';
-import 'package:test/ui/ScanPage/bouncing_ball.dart';
+import 'package:test/ui/widgets/bouncing_ball.dart';
 import 'scan_animation.dart';
-import 'list_servers.dart';
+import 'widgets/list_servers.dart';
 
 class ScanPage extends ConsumerStatefulWidget {
   const ScanPage({Key? key}) : super(key: key);

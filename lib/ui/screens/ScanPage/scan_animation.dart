@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:test/api/scan.dart';
-import 'ring.dart';
-import 'expanding_dot.dart';
-import 'scale_and_fade.dart';
+import 'widgets/ring.dart';
+import 'widgets/expanding_dot.dart';
+import '../../widgets/scale_and_fade.dart';
 
 class ScanAnimation extends StatefulWidget {
   Scan scan;
@@ -50,7 +50,18 @@ class _ScanAnimationState extends State<ScanAnimation>
           ),
         ),
       ),
-      ExpandingDot(controller: _controller, scan: scan)
+      ExpandingDot(
+        onPressed: () {
+          _controller.repeat(reverse: true);
+          try {
+            scan.scanNetwork(8123);
+          } on Exception {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content:
+                    Text("Make sure you are connected to your home wifi")));
+          }
+        },
+      )
     ]);
   }
 }
