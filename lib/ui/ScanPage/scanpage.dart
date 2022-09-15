@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:test/api/config.dart';
 import 'package:test/api/scan.dart';
 import 'scan_animation.dart';
 import 'list_servers.dart';
@@ -17,7 +18,12 @@ class _ScanPageState extends ConsumerState<ScanPage> {
   @override
   Widget build(BuildContext context) {
     final scan = ref.watch(scanProvider);
-    Widget _child = ScanAnimation(scan: scan);
+    final config = ref.watch(configProvider);
+    Widget _child = const CircularProgressIndicator();
+
+    if (config.isInit) {
+      _child = ScanAnimation(scan: scan);
+    }
 
     if (scan.ips.isNotEmpty) {
       setState(() {

@@ -21,28 +21,25 @@ class Config extends ChangeNotifier {
   String _activeIp = "";
   final port = "8123";
   String _token = "";
-  CurrentIpState _configState = CurrentIpState.noIp;
-
-  final _isInitedController = StreamController<bool>.broadcast();
-
-  Stream<bool> get isInitedStream =>
-      _isInitedController.stream.asBroadcastStream();
+  late CurrentIpState _configState;
   bool isInit = false;
   CurrentIpState get configState => _configState;
   String get activeIp => _activeIp;
   String get token => _token;
 
-  Future<CurrentIpState> initConfig() async {
-    _isInitedController.add(false);
+  Future<void> initConfig() async {
     final box = await Hive.openBox(configBox);
     if (!box.containsKey(activeIpKey) || await box.get(activeIpKey) == '') {
       _configState = CurrentIpState.noIp;
-      return configState;
+      isInit = true;
+      notifyListeners();
+      return;
     }
     _activeIp = await box.get(activeIpKey);
-    _isInitedController.add(true);
     isInit = true;
-    return await checkToken(_activeIp);
+
+    await checkToken(_activeIp);
+    notifyListeners();
   }
 
   Future<void> setToken(String ip, String token) async {
@@ -51,15 +48,15 @@ class Config extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<CurrentIpState> changeIp(String ip) async {
+  Future<void> changeIp(String ip) async {
     final box = await Hive.openBox(configBox);
     await box.put(activeIpKey, ip);
     _activeIp = ip;
+    await checkToken(ip);
     notifyListeners();
-    return checkToken(ip);
   }
 
-  Future<CurrentIpState> checkToken(ip) async {
+  Future<void> checkToken(ip) async {
     final box = await Hive.openBox(configBox);
 
     if (box.containsKey(ip)) {
@@ -68,6 +65,5 @@ class Config extends ChangeNotifier {
     } else {
       _configState = CurrentIpState.notAuthorized;
     }
-    return configState;
   }
 }
