@@ -5,17 +5,15 @@ import 'widgets/expanding_dot.dart';
 import '../../widgets/scale_and_fade.dart';
 
 class ScanAnimation extends StatefulWidget {
-  Scan scan;
-  ScanAnimation({Key? key, required this.scan}) : super(key: key);
+  final Scan scan;
+  const ScanAnimation({Key? key, required this.scan}) : super(key: key);
 
   @override
-  State<ScanAnimation> createState() => _ScanAnimationState(scan);
+  State<ScanAnimation> createState() => _ScanAnimationState();
 }
 
 class _ScanAnimationState extends State<ScanAnimation>
     with TickerProviderStateMixin {
-  Scan scan;
-  _ScanAnimationState(this.scan);
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 1),
     vsync: this,
@@ -34,7 +32,7 @@ class _ScanAnimationState extends State<ScanAnimation>
         width: 270,
         child: ScaleAndFade(
           controller: _controller,
-          child: Ring(diameter: 270),
+          child: const Ring(diameter: 270),
           fadeBothWays: false,
         ),
       ),
@@ -45,7 +43,7 @@ class _ScanAnimationState extends State<ScanAnimation>
           width: 230,
           child: ScaleAndFade(
             controller: _controller,
-            child: Ring(diameter: 230),
+            child: const Ring(diameter: 230),
             fadeBothWays: true,
           ),
         ),
@@ -54,7 +52,7 @@ class _ScanAnimationState extends State<ScanAnimation>
         onPressed: () {
           _controller.repeat(reverse: true);
           try {
-            scan.scanNetwork(8123);
+            widget.scan.scanNetwork(8123);
           } on Exception {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content:

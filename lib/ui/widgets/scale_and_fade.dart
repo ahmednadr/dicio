@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ScaleAndFade extends StatefulWidget {
-  Widget child;
-  AnimationController controller;
-  bool fadeBothWays;
-  ScaleAndFade(
+  final Widget child;
+  final AnimationController controller;
+  final bool fadeBothWays;
+  const ScaleAndFade(
       {Key? key,
       required this.child,
       required this.controller,
@@ -12,23 +12,16 @@ class ScaleAndFade extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ScaleAndFade> createState() => _ScaleAndFadeState(
-      controller: controller, child: child, fadeBothWays: fadeBothWays);
+  State<ScaleAndFade> createState() => _ScaleAndFadeState();
 }
 
 class _ScaleAndFadeState extends State<ScaleAndFade>
     with TickerProviderStateMixin {
-  late Widget child;
-  late AnimationController controller;
-  bool fadeBothWays;
-  _ScaleAndFadeState(
-      {required this.child,
-      required this.controller,
-      this.fadeBothWays = false});
+  _ScaleAndFadeState();
 
   bool opacity = true;
 
-  late final AnimationController _controller = controller
+  late final AnimationController _controller = widget.controller
     ..addListener(() {
       if (opacity && _controller.status == AnimationStatus.forward) {
         setState(() {
@@ -54,12 +47,12 @@ class _ScaleAndFadeState extends State<ScaleAndFade>
         child: AnimatedOpacity(
             opacity: opacity
                 ? 1
-                : fadeBothWays
+                : widget.fadeBothWays
                     ? 0.4
                     : 0,
             curve: Curves.easeInExpo,
             duration: const Duration(seconds: 1),
-            child: ScaleTransition(scale: _animation, child: child)),
+            child: ScaleTransition(scale: _animation, child: widget.child)),
       ),
     );
   }

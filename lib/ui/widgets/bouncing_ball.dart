@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 
 class BouncingBall extends StatefulWidget {
+  const BouncingBall({Key? key}) : super(key: key);
   @override
   State<BouncingBall> createState() => _BouncingBallState();
 }

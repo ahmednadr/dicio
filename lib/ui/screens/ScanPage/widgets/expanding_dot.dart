@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:test/api/scan.dart';
 
 class ExpandingDot extends StatefulWidget {
   const ExpandingDot({Key? key, this.onPressed}) : super(key: key);

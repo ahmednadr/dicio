@@ -20,7 +20,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
   Widget build(BuildContext context) {
     final scan = ref.watch(scanProvider);
     final config = ref.watch(configProvider);
-    Widget _child = BouncingBall();
+    Widget _child = const BouncingBall();
 
     if (config.isInit) {
       _child = ScanAnimation(scan: scan);
