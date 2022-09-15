@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test/api/config.dart';
+import 'package:test/api/scan.dart';
 
 class ListServers extends ConsumerStatefulWidget {
   const ListServers({
     Key? key,
-    required this.ips,
   }) : super(key: key);
-
-  final Set ips;
 
   @override
   ConsumerState<ListServers> createState() => _ListServersState();
@@ -18,6 +16,7 @@ class _ListServersState extends ConsumerState<ListServers> {
   @override
   Widget build(BuildContext context) {
     final config = ref.read(configProvider);
+    final ips = ref.watch(scanProvider).ips;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -28,7 +27,7 @@ class _ListServersState extends ConsumerState<ListServers> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: ListView.builder(
-              itemCount: widget.ips.length,
+              itemCount: ips.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 return Column(
@@ -37,7 +36,7 @@ class _ListServersState extends ConsumerState<ListServers> {
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: InkWell(
                         onTap: () async {
-                          await config.changeIp(widget.ips.elementAt(index));
+                          await config.changeIp(ips.elementAt(index));
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -53,7 +52,7 @@ class _ListServersState extends ConsumerState<ListServers> {
                           children: [
                             const Icon(Icons.settings_input_antenna),
                             Text(
-                              widget.ips.elementAt(index),
+                              ips.elementAt(index),
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,
@@ -64,7 +63,7 @@ class _ListServersState extends ConsumerState<ListServers> {
                         ),
                       ),
                     ),
-                    (index != widget.ips.length - 1)
+                    (index != ips.length - 1)
                         ? const Divider(
                             color: Colors.black,
                           )

@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:test/api/scan.dart';
-import 'widgets/ring.dart';
-import 'widgets/expanding_dot.dart';
-import '../../widgets/scale_and_fade.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:test/ui/screens/ScanPage/scan_view_model.dart';
+import 'package:test/ui/screens/ScanPage/widgets/expanding_dot.dart';
+import 'package:test/ui/screens/ScanPage/widgets/ring.dart';
+import 'package:test/ui/widgets/scale_and_fade.dart';
 
-class ScanAnimation extends StatefulWidget {
-  final Scan scan;
-  const ScanAnimation({Key? key, required this.scan}) : super(key: key);
+class ScanAnimation extends ConsumerStatefulWidget {
+  const ScanAnimation({Key? key, required this.controller}) : super(key: key);
+
+  final AnimationController controller;
 
   @override
-  State<ScanAnimation> createState() => _ScanAnimationState();
+  ConsumerState<ScanAnimation> createState() => _ScanAnimationState();
 }
 
-class _ScanAnimationState extends State<ScanAnimation>
-    with TickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 1),
-    vsync: this,
-  )..stop();
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class _ScanAnimationState extends ConsumerState<ScanAnimation> {
+  _ScanAnimationState();
 
   @override
   Widget build(BuildContext context) {
+    final _controller = widget.controller;
+
     return Stack(alignment: AlignmentDirectional.center, children: [
       SizedBox(
         height: 270,
@@ -52,7 +47,7 @@ class _ScanAnimationState extends State<ScanAnimation>
         onPressed: () {
           _controller.repeat(reverse: true);
           try {
-            widget.scan.scanNetwork(8123);
+            ref.read(ScanViewModel.scanViewModelProvider.notifier).scan();
           } on Exception {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content:

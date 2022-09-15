@@ -23,15 +23,17 @@ class _ScaleAndFadeState extends State<ScaleAndFade>
 
   late final AnimationController _controller = widget.controller
     ..addListener(() {
-      if (opacity && _controller.status == AnimationStatus.forward) {
-        setState(() {
-          opacity = false;
-        });
-      }
-      if (!opacity && _controller.status == AnimationStatus.reverse) {
-        setState(() {
-          opacity = true;
-        });
+      if (mounted) {
+        if (opacity && _controller.status == AnimationStatus.forward) {
+          setState(() {
+            opacity = false;
+          });
+        }
+        if (!opacity && _controller.status == AnimationStatus.reverse) {
+          setState(() {
+            opacity = true;
+          });
+        }
       }
     });
 
