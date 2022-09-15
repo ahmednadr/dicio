@@ -18,14 +18,19 @@ final configProvider = ChangeNotifierProvider<Config>(((ref) {
 enum CurrentIpState { notAuthorized, authorized, noIp }
 
 class Config extends ChangeNotifier {
-  String _activeIp = "";
+  late String _activeIp;
   final port = "8123";
-  String _token = "";
+  late String _token;
   late CurrentIpState _configState;
   bool isInit = false;
+
   CurrentIpState get configState => _configState;
-  String get activeIp => _activeIp;
-  String get token => _token;
+  String get activeIp => _configState != CurrentIpState.noIp
+      ? _activeIp
+      : throw Exception("no ip obtained");
+  String get token => _configState == CurrentIpState.authorized
+      ? _token
+      : throw Exception("no token obtained");
 
   Future<void> initConfig() async {
     final box = await Hive.openBox(configBox);

@@ -7,6 +7,7 @@ import 'package:web_socket_channel/status.dart' as status;
 
 final authProvider = Provider<Auth>(((ref) {
   var config = ref.watch(configProvider);
+  if (!config.isInit) throw Exception("config wasn't initiated");
   return Auth(config.activeIp, config.port);
 }));
 
