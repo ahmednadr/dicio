@@ -24,6 +24,12 @@ class _BouncingBallState extends State<BouncingBall>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: controller.value),
