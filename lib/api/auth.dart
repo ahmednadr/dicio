@@ -83,7 +83,7 @@ class Auth {
       channel.sink.add(jsonEncode({
         "id": "11",
         "type": "auth/long_lived_access_token",
-        "client_name": "ACS",
+        "client_name": "ACS ${DateTime.now()}",
         "client_icon": "null",
         "lifespan": 365
       }));

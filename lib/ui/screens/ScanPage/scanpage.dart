@@ -32,6 +32,7 @@ class _ScanPageState extends ConsumerState<ScanPage>
   bool first = true;
   Widget _child = BouncingBall();
   late ScanViewModel vm;
+  double connectOpacity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +43,60 @@ class _ScanPageState extends ConsumerState<ScanPage>
 
     return Scaffold(
       body: Center(
-          child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 250),
-              switchInCurve: Curves.easeOutBack,
-              switchOutCurve: Curves.easeOutBack,
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return ScaleTransition(scale: animation, child: child);
-              },
-              child: _child)),
+          child: SizedBox.expand(
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            Positioned(
+              child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  switchInCurve: Curves.easeOutBack,
+                  switchOutCurve: Curves.easeOutBack,
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                    return ScaleTransition(scale: animation, child: child);
+                  },
+                  child: _child),
+            ),
+            Positioned(
+              bottom: MediaQuery.of(context).size.height * 0.15,
+              child: AnimatedOpacity(
+                opacity: connectOpacity,
+                duration: const Duration(milliseconds: 400),
+                child: Center(
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 2,
+                                color: const Color(0xbbd82258),
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white),
+                          height: 50,
+                          child: const Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Center(
+                              child: Text(
+                                'Connect without Server',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () => DoNothingAction(),
+                      )),
+                ),
+              ),
+            ),
+          ],
+        ),
+      )),
     );
   }
 
@@ -67,6 +114,7 @@ class _ScanPageState extends ConsumerState<ScanPage>
         _controller.reset();
         break;
       case ScanStates.scanning:
+        connectOpacity = 0;
         break;
       case ScanStates.finished:
         _child = ListServers();

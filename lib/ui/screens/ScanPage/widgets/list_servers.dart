@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test/api/config.dart';
 import 'package:test/api/scan.dart';
+import 'package:test/ui/screens/LoginPage/login.dart';
 
 class ListServers extends ConsumerStatefulWidget {
   const ListServers({
@@ -37,15 +38,12 @@ class _ListServersState extends ConsumerState<ListServers> {
                       child: InkWell(
                         onTap: () async {
                           await config.changeIp(ips.elementAt(index));
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) => Center(
-                                        child: Text(
-                                          "${config.activeIp} is ${config.configState}",
-                                          style: const TextStyle(fontSize: 10),
-                                        ),
-                                      ))));
+                          final page =
+                              config.configState == CurrentIpState.notAuthorized
+                                  ? const LogIn()
+                                  : Text("auth");
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: ((context) => page)));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,

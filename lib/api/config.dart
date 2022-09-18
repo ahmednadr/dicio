@@ -50,6 +50,8 @@ class Config extends ChangeNotifier {
   Future<void> setToken(String ip, String token) async {
     final box = await Hive.openBox(configBox);
     await box.put(ip, token);
+    _token = token;
+    _configState == CurrentIpState.authorized;
     notifyListeners();
   }
 
