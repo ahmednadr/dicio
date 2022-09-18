@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test/api/config.dart';
 import 'package:test/api/scan.dart';
-import 'package:test/ui/screens/LoginPage/login.dart';
+import 'package:test/ui/screens/LoginPage/login_page.dart';
 
 class ListServers extends ConsumerStatefulWidget {
   const ListServers({
@@ -41,7 +41,7 @@ class _ListServersState extends ConsumerState<ListServers> {
                           final page =
                               config.configState == CurrentIpState.notAuthorized
                                   ? const LogIn()
-                                  : Text("auth");
+                                  : const Text("auth");
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: ((context) => page)));
                         },

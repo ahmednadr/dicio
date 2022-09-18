@@ -25,14 +25,13 @@ class Auth {
   /// Takes the [username] and [password]. returns a new long lived token for this user.
   Future<String> authenticate(String username, String password) async {
     String token;
-    // try {
     String authToken =
         await _getAuthToken(username, password, await _getFlowId());
     token = await _connectWS(await _getAccessToken(authToken));
-    // } catch (e) {
-    /// TODO: handle network exceptions and auth_invalid from ws and auth error from the rest api.
-    // }
-    assert(token != "");
+
+    if (token == '') {
+      throw Exception('Token is empty');
+    }
     return token;
   }
 
