@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:test/ui/screens/ScanPage/scanpage.dart';
+import 'package:test/ui/screens/ScanPage/scan_page.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();

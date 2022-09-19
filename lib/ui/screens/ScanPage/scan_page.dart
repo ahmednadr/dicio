@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:test/api/config.dart';
-import 'package:test/api/scan.dart';
 import 'package:test/ui/screens/ScanPage/scan_states.dart';
 import 'package:test/ui/screens/ScanPage/scan_view_model.dart';
 import 'package:test/ui/widgets/bouncing_ball.dart';
@@ -24,15 +22,16 @@ class _ScanPageState extends ConsumerState<ScanPage>
   @override
   void dispose() {
     _controller
+      // ignore: invalid_use_of_protected_member
       ..clearListeners()
       ..dispose();
     super.dispose();
   }
 
   bool first = true;
-  Widget _child = BouncingBall();
+  Widget _child = const BouncingBall();
   late ScanViewModel vm;
-  double connectOpacity = 1;
+  double connectOpacity = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -103,21 +102,26 @@ class _ScanPageState extends ConsumerState<ScanPage>
   void handleStates(ScanStates state) {
     switch (state) {
       case ScanStates.init:
+        connectOpacity = 0;
         _child = const BouncingBall();
         break;
       case ScanStates.idle:
+        connectOpacity = 1;
         _child = ScanAnimation(
           controller: _controller,
         );
         break;
       case ScanStates.timeout:
-        _controller.reset();
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          _controller.reset();
+          vm.handleTimeout(context);
+        });
         break;
       case ScanStates.scanning:
         connectOpacity = 0;
         break;
       case ScanStates.finished:
-        _child = ListServers();
+        _child = const ListServers();
         break;
       case ScanStates.error:
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

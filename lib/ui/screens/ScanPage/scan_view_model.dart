@@ -49,4 +49,11 @@ class ScanViewModel extends StateNotifier<ScanStates> {
         content: Text("Make sure you are connected to your home wifi")));
     state = ScanStates.idle;
   }
+
+  void handleTimeout(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content:
+            Text("Couldn't find home assistants. Make sure you server is on")));
+    state = ScanStates.idle;
+  }
 }
