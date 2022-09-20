@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:test/api/constants/hive_configs.dart';
+import 'package:test/api/constants/hive_boxes_keys.dart';
 
 final configProvider = ChangeNotifierProvider<Config>(((ref) {
   ref.onDispose(() {
@@ -23,6 +23,8 @@ class Config extends ChangeNotifier {
   late String _token;
   late CurrentIpState _configState;
   bool isInit = false;
+
+  bool get ipSet => _activeIp != '';
 
   CurrentIpState get configState => _configState;
   String get activeIp => _configState != CurrentIpState.noIp
