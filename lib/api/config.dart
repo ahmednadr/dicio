@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:test/api/constants/hive_boxes_keys.dart';
-import 'package:test/models/server_config.dart';
+import 'package:test/models/server.dart';
 
 final configProvider = ChangeNotifierProvider<Config>(((ref) {
   ref.onDispose(() {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test/api/auth.dart';
 import 'package:test/api/config.dart';
-import 'package:test/models/server_config.dart';
+import 'package:test/models/server.dart';
 import 'package:test/ui/screens/LoginPage/login_states.dart';
 
 class LoginViewModel extends StateNotifier<LoginStates> {
