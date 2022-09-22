@@ -41,12 +41,32 @@ Map handleType(element) {
         "template": element['template'],
         "entity": element['entity'],
       };
+    case "custom:mushroom-cover-card":
+      return {
+        "type": "mushroom-cover-card",
+        "name": element['name'],
+        "entity": element['entity'],
+        "icon": element['icon'],
+        "show_buttons_control": element["show_buttons_control"],
+        "show_position_control": element["show_position_control"],
+      };
+    case "custom:shutter-card":
+      return {
+        "type": "shutter card",
+        "entities": {
+          "entity": element['entities'][0]['entity'],
+          "name": element['entities'][0]['name'],
+        }
+      };
     case "custom:state-switch":
-      print('objectection');
       return {
         "type": "state-switch",
         "entity": element['entity'],
-        "states": {"lights": handleType(element["states"]['lights'])}
+        "states": {
+          "lights": handleType(element["states"]['lights']),
+          "shutter": handleType(element["states"]['shutter']),
+          "ac": handleType(element["states"]['ac'])
+        }
       };
   }
 
@@ -55,6 +75,10 @@ Map handleType(element) {
 
 Map handleContent(element) {
   return {"text": element['content']};
+}
+
+Map handleIncludes(element) {
+  return {};
 }
 
 void main() {
