@@ -16,7 +16,7 @@ final configProvider = ChangeNotifierProvider<Config>(((ref) {
   return config;
 }));
 
-enum CurrentIpState { serverExists, noIp }
+enum CurrentIpState { serverExists, serverDoesntExist, noIp }
 
 class Config extends ChangeNotifier {
   late String _activeIp;
@@ -72,7 +72,7 @@ class Config extends ChangeNotifier {
       _activeServer = box.get(ip);
       _configState = CurrentIpState.serverExists;
     } else {
-      _configState = CurrentIpState.noIp;
+      _configState = CurrentIpState.serverDoesntExist;
     }
   }
 }
