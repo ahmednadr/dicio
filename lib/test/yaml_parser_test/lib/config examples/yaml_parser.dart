@@ -30,6 +30,13 @@ Map handleType(element) {
       return {"swipe card": parse(element['cards'])};
     case "custom:layout-card":
       return {"layout": parse(element['cards'])};
+    case "custom:button-card":
+      return {
+        "type": "button",
+        "name": element['name'],
+        "template": element['template'],
+        "entity": element['entity'],
+      };
     case "picture-glance":
       return {
         "type": "card",
@@ -150,6 +157,16 @@ views:
               navigation_path: /lovelace/ground-Kitchen
             title: Dining
             type: picture-glance
+      - type: custom:layout-card
+        layout_type: grid
+        layout:
+          grid-template-columns: repeat(auto-fill, minmax(115px, auto))
+        cards:
+          - type: custom:button-card
+            entity: light.spot_lights_bedroom_3_ff
+            name: Spot Lights
+            icon: hue:bulb-group-spot
+            template: light_button
       - content: |
           # First Floor
         type: markdown
