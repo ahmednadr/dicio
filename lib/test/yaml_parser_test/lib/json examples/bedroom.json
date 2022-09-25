@@ -1,0 +1,201 @@
+{
+    "child0": {
+        "layout": {
+            "child0": {
+                "button": {
+                    "name": null,
+                    "template": "back_home",
+                    "entity": null
+                }
+            },
+            "child1": {
+                "text": "# Bedroom 3\n"
+            },
+            "child2": {
+                "swipe card": {
+                    "child0": {
+                        "button": {
+                            "name": "Room Off",
+                            "template": "scene_button",
+                            "entity": "script.bedroom_3_off"
+                        }
+                    },
+                    "child1": {
+                        "button": {
+                            "name": "Relax Mode",
+                            "template": "scene_button",
+                            "entity": "script.bedroom_3_relax"
+                        }
+                    },
+                    "child2": {
+                        "button": {
+                            "name": "Sleeping Mode",
+                            "template": "scene_button",
+                            "entity": "script.bedroom_3_sleeping"
+                        }
+                    },
+                    "child3": {
+                        "button": {
+                            "name": "Lights On",
+                            "template": "scene_button",
+                            "entity": "script.bedroom_3_lights_on"
+                        }
+                    },
+                    "child4": {
+                        "button": {
+                            "name": "Lights Off",
+                            "template": "scene_button",
+                            "entity": "script.bedroom_3_lights_off"
+                        }
+                    },
+                    "child5": {
+                        "button": {
+                            "name": "Covers On",
+                            "template": "scene_button",
+                            "entity": "script.bedroom_3_covers_on"
+                        }
+                    },
+                    "child6": {
+                        "button": {
+                            "name": "Covers Off",
+                            "template": "scene_button",
+                            "entity": "script.bedroom_3_covers_on_2"
+                        }
+                    }
+                }
+            },
+            "include 3": {
+                "path": "p",
+                "parameters": "o"
+            }
+        }
+    },
+    "child1": {
+        "vertical stack": {
+            "child0": {
+                "state-switch": {
+                    "entity": "input_select.bedroom_3",
+                    "states": {
+                        "lights": {
+                            "layout": {
+                                "child0": {
+                                    "button": {
+                                        "name": "Spot Lights",
+                                        "template": "light_button",
+                                        "entity": "light.spot_lights_bedroom_3_ff"
+                                    }
+                                },
+                                "child1": {
+                                    "button": {
+                                        "name": "Chandelier",
+                                        "template": "light_button",
+                                        "entity": "light.chandeleir_bedroom_3_ff"
+                                    }
+                                },
+                                "child2": {
+                                    "button": {
+                                        "name": "Indirect Lights",
+                                        "template": "light_button",
+                                        "entity": "light.indirect_lights_bedroom_3_ff"
+                                    }
+                                },
+                                "child3": {
+                                    "button": {
+                                        "name": "Pendant",
+                                        "template": "light_button",
+                                        "entity": "light.pendant_bedroom_3_ff"
+                                    }
+                                },
+                                "child4": {
+                                    "button": {
+                                        "name": "Table Lamp",
+                                        "template": "light_button",
+                                        "entity": "light.table_lamp_bedroom_3_ff"
+                                    }
+                                },
+                                "child5": {
+                                    "button": {
+                                        "name": "Balcony",
+                                        "template": "light_button",
+                                        "entity": "light.balcony_bedroom_3_ff"
+                                    }
+                                }
+                            }
+                        },
+                        "shutter": {
+                            "layout": {
+                                "child0": {
+                                    "layout": {
+                                        "child0": {
+                                            "shutter card": {
+                                                "entities": {
+                                                    "entity": "cover.bedroom_3_covers",
+                                                    "name": "Bedroom 3 Covers"
+                                                }
+                                            }
+                                        },
+                                        "child1": {
+                                            "layout": {
+                                                "child0": {
+                                                    "mushroom-cover-card": {
+                                                        "name": "Shutter",
+                                                        "entity": "cover.bedroom_3_shutter_ff",
+                                                        "icon": null,
+                                                        "show_buttons_control": true,
+                                                        "show_position_control": true
+                                                    }
+                                                },
+                                                "child1": {
+                                                    "mushroom-cover-card": {
+                                                        "name": "Curtain",
+                                                        "entity": "cover.bedroom_3_curtain_ff",
+                                                        "icon": "mdi:curtains",
+                                                        "show_buttons_control": true,
+                                                        "show_position_control": true
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "ac": {
+                            "layout": {
+                                "child0": {
+                                    "layout": {
+                                        "include 0": {
+                                            "path": "/config/lovelace/Climate.yaml",
+                                            "parameters": {
+                                                "climate_name": "Bedroom 3 Ac",
+                                                "climate_entity": "climate.bedroom_3_ac",
+                                                "fan_entity": "light.bedroom_3_ac_fan_speed"
+                                            }
+                                        },
+                                        "include 1": {
+                                            "path": "/config/lovelace/Heater_Climate.yaml",
+                                            "parameters": {
+                                                "heater_name": "Bedroom 3 Heater",
+                                                "heater_entity": "switch.bedroom_3_heater_ff",
+                                                "timer_entity": "timer.bedroom_3_heater_ff",
+                                                "toggle_switch_entity": "input_boolean.bedroom_3_heater_ff",
+                                                "counter_entity": "climate.bedroom_3_heater_ff"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "child2": {
+        "button": {
+            "name": null,
+            "template": null,
+            "entity": null
+        }
+    }
+}

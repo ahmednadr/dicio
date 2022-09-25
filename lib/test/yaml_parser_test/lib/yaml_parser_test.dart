@@ -18,7 +18,11 @@ Map parse(YamlMap) {
     } catch (e) {
       // element['type'] not found exception
     }
-    tree.putIfAbsent("child${number++}", () => handleResult);
+    if (handleResult != null) {
+      tree.putIfAbsent("child${number++}", () => handleResult);
+    } else {
+      tree.putIfAbsent("include ${number++}", () => handleIncludes(element));
+    }
   }
   return tree;
 }
@@ -36,41 +40,45 @@ Map handleType(element) {
       return {"layout": parse(element['cards'])};
     case "custom:button-card":
       return {
-        "type": "button",
-        "name": element['name'],
-        "template": element['template'],
-        "entity": element['entity'],
+        "button": {
+          "name": element['name'],
+          "template": element['template'],
+          "entity": element['entity'],
+        }
       };
     case "custom:mushroom-cover-card":
       return {
-        "type": "mushroom-cover-card",
-        "name": element['name'],
-        "entity": element['entity'],
-        "icon": element['icon'],
-        "show_buttons_control": element["show_buttons_control"],
-        "show_position_control": element["show_position_control"],
+        "mushroom-cover-card": {
+          "name": element['name'],
+          "entity": element['entity'],
+          "icon": element['icon'],
+          "show_buttons_control": element["show_buttons_control"],
+          "show_position_control": element["show_position_control"],
+        }
       };
     case "custom:shutter-card":
       return {
-        "type": "shutter card",
-        "entities": {
-          "entity": element['entities'][0]['entity'],
-          "name": element['entities'][0]['name'],
+        "shutter card": {
+          "entities": {
+            "entity": element['entities'][0]['entity'],
+            "name": element['entities'][0]['name'],
+          }
         }
       };
     case "custom:state-switch":
       return {
-        "type": "state-switch",
-        "entity": element['entity'],
-        "states": {
-          "lights": handleType(element["states"]['lights']),
-          "shutter": handleType(element["states"]['shutter']),
-          "ac": handleType(element["states"]['ac'])
+        "state-switch": {
+          "entity": element['entity'],
+          "states": {
+            "lights": handleType(element["states"]['lights']),
+            "shutter": handleType(element["states"]['shutter']),
+            "ac": handleType(element["states"]['ac'])
+          }
         }
       };
+    default:
+      return {};
   }
-
-  return {};
 }
 
 Map handleContent(element) {
@@ -78,7 +86,7 @@ Map handleContent(element) {
 }
 
 Map handleIncludes(element) {
-  return {};
+  return {"path": element[0], "parameters": element[1]};
 }
 
 void main() {
