@@ -65,7 +65,7 @@ class Config extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> checkServer(ip) async {
+  Future<void> checkServer(String ip) async {
     final box = await Hive.openBox(configBox);
 
     if (box.containsKey(ip)) {
