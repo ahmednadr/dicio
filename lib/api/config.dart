@@ -2,7 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:test/api/constants/hive_configs.dart';
+import 'package:test/api/constants/hive_boxes_keys.dart';
+import 'package:test/models/server.dart';
 
 final configProvider = ChangeNotifierProvider<Config>(((ref) {
   ref.onDispose(() {
@@ -15,22 +16,25 @@ final configProvider = ChangeNotifierProvider<Config>(((ref) {
   return config;
 }));
 
-enum CurrentIpState { notAuthorized, authorized, noIp }
+enum CurrentIpState { serverExists, noIp }
 
 class Config extends ChangeNotifier {
   late String _activeIp;
   final port = "8123";
-  late String _token;
+  late ServerConfig _activeServer;
   late CurrentIpState _configState;
   bool isInit = false;
+
+  bool get ipSet => _activeIp != '';
 
   CurrentIpState get configState => _configState;
   String get activeIp => _configState != CurrentIpState.noIp
       ? _activeIp
       : throw Exception("no ip obtained");
-  String get token => _configState == CurrentIpState.authorized
-      ? _token
-      : throw Exception("no token obtained");
+
+  ServerConfig get activeServer => _configState == CurrentIpState.serverExists
+      ? _activeServer
+      : throw Exception("no server obtained");
 
   Future<void> initConfig() async {
     final box = await Hive.openBox(configBox);
@@ -41,17 +45,15 @@ class Config extends ChangeNotifier {
       return;
     }
     _activeIp = await box.get(activeIpKey);
+    await checkServer(_activeIp);
     isInit = true;
-
-    await checkToken(_activeIp);
     notifyListeners();
   }
 
-  Future<void> setToken(String ip, String token) async {
+  Future<void> newServer(String ip, ServerConfig server) async {
     final box = await Hive.openBox(configBox);
-    await box.put(ip, token);
-    _token = token;
-    _configState == CurrentIpState.authorized;
+    await box.put(ip, server);
+    _configState == CurrentIpState.serverExists;
     notifyListeners();
   }
 
@@ -59,18 +61,18 @@ class Config extends ChangeNotifier {
     final box = await Hive.openBox(configBox);
     await box.put(activeIpKey, ip);
     _activeIp = ip;
-    await checkToken(ip);
+    await checkServer(ip);
     notifyListeners();
   }
 
-  Future<void> checkToken(ip) async {
+  Future<void> checkServer(ip) async {
     final box = await Hive.openBox(configBox);
 
     if (box.containsKey(ip)) {
-      _token = box.get(ip);
-      _configState = CurrentIpState.authorized;
+      _activeServer = box.get(ip);
+      _configState = CurrentIpState.serverExists;
     } else {
-      _configState = CurrentIpState.notAuthorized;
+      _configState = CurrentIpState.noIp;
     }
   }
 }

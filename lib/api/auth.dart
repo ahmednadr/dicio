@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:riverpod/riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:test/api/config.dart';
+import 'package:test/models/user.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/status.dart' as status;
 
@@ -15,6 +16,7 @@ class Auth {
   final String ip;
   final String port;
   late String address;
+  late User ReturnUser;
 
   /// Takes the values [ip] and [port]. retruns an instance for autherization.
   ///
@@ -23,16 +25,15 @@ class Auth {
   }
 
   /// Takes the [username] and [password]. returns a new long lived token for this user.
-  Future<String> authenticate(String username, String password) async {
-    String token;
+  Future<User> authenticate(String username, String password) async {
     String authToken =
         await _getAuthToken(username, password, await _getFlowId());
-    token = await _connectWS(await _getAccessToken(authToken));
+    await _connectWS(await _getAccessToken(authToken));
 
-    if (token == '') {
+    if (ReturnUser.accessToken == '') {
       throw Exception('Token is empty');
     }
-    return token;
+    return ReturnUser;
   }
 
   /// returns a [flow_id] thats refers to the login session.
@@ -53,6 +54,8 @@ class Auth {
       "password": "$password",
       "client_id": "http://acs"
     });
+    ReturnUser = User();
+    ReturnUser.username = username;
     return r.data['result'];
   }
 
@@ -69,7 +72,7 @@ class Auth {
   }
 
   /// Use [accessToken] to connect to a server via websocket and fetch a longlived token.
-  Future<String> _connectWS(accessToken) async {
+  Future<User> _connectWS(accessToken) async {
     var channel = IOWebSocketChannel.connect('ws://$ip:$port/api/websocket');
     String token = '';
 
@@ -113,6 +116,8 @@ class Auth {
       }
     }).asFuture();
 
-    return token;
+    ReturnUser.accessToken = token;
+
+    return ReturnUser;
   }
 }

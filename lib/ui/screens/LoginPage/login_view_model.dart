@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test/api/auth.dart';
 import 'package:test/api/config.dart';
+import 'package:test/models/server.dart';
 import 'package:test/ui/screens/LoginPage/login_states.dart';
 
 class LoginViewModel extends StateNotifier<LoginStates> {
@@ -27,8 +28,8 @@ class LoginViewModel extends StateNotifier<LoginStates> {
     if (valid!) {
       try {
         state = LoginStates.loading;
-        var token = await auth.authenticate(username!, password!);
-        config.setToken(auth.ip, token);
+        var user = await auth.authenticate(username!, password!);
+        config.newServer(auth.ip, ServerConfig(username, user));
         state = LoginStates.success;
       } catch (_) {
         state = LoginStates.error;
@@ -46,7 +47,7 @@ class LoginViewModel extends StateNotifier<LoginStates> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: ((context) =>
-                Text("${config.activeIp} token ${config.token}"))));
+            builder: ((context) => Text(
+                "${config.activeIp} token ${config.activeServer.accessToken}"))));
   }
 }

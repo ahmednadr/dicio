@@ -38,10 +38,9 @@ class _ListServersState extends ConsumerState<ListServers> {
                       child: InkWell(
                         onTap: () async {
                           await config.changeIp(ips.elementAt(index));
-                          final page =
-                              config.configState == CurrentIpState.notAuthorized
-                                  ? const LogIn()
-                                  : const Text("auth");
+                          final page = config.activeServer.accessToken == ''
+                              ? const LogIn()
+                              : const Text("auth");
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: ((context) => page)));
                         },
