@@ -1,0 +1,137 @@
+{
+    "child0": {
+        "layout": {
+            "include 0": {},
+            "child1": {}
+        }
+    },
+    "child1": {
+        "text": "# Ground Floor\n"
+    },
+    "child2": {
+        "swipe card": {
+            "child0": {
+                "card": {
+                    "image": "/local/iconHA/entrance1.jpg",
+                    "actions": {
+                        "ontap": {
+                            "path": "/lovelace/ground-Entrance"
+                        }
+                    }
+                }
+            },
+            "child1": {
+                "card": {
+                    "image": "/local/iconHA/reception.jpg",
+                    "actions": {
+                        "ontap": {
+                            "path": "/lovelace/ground-Reception"
+                        }
+                    }
+                }
+            },
+            "child2": {
+                "card": {
+                    "image": "/local/Home-Images/Dinning2.png",
+                    "actions": {
+                        "ontap": {
+                            "path": "/lovelace/ground-Kitchen"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "child3": {
+        "layout": {
+            "child0": {
+                "button": {
+                    "name": "Spot Lights",
+                    "template": "light_button",
+                    "entity": "light.spot_lights_bedroom_3_ff"
+                }
+            }
+        }
+    },
+    "child4": {
+        "text": "# First Floor\n"
+    },
+    "child5": {
+        "swipe card": {
+            "child0": {
+                "card": {
+                    "image": "/local/Home-Images/Stairs1.png",
+                    "actions": {
+                        "ontap": {
+                            "path": "/lovelace/stairs"
+                        }
+                    }
+                }
+            },
+            "child1": {
+                "card": {
+                    "image": "/local/iconHA/MasterRoom1.jpg",
+                    "actions": {
+                        "ontap": {
+                            "path": "/lovelace/first-masterroom"
+                        }
+                    }
+                }
+            },
+            "child2": {
+                "card": {
+                    "image": "/local/Home-Images/Family.jpg",
+                    "actions": {
+                        "ontap": {
+                            "path": "/lovelace/first-Bedroom_1"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "child6": {
+        "text": "# Outdoor & Security\n"
+    },
+    "child7": {
+        "swipe card": {
+            "child0": {
+                "card": {
+                    "image": "/local/iconHA/caneras (1).webp",
+                    "actions": {
+                        "ontap": {
+                            "path": "/lovelace/security"
+                        }
+                    }
+                }
+            },
+            "child1": {
+                "card": {
+                    "image": "/local/Home-Images/Gate.png",
+                    "actions": {
+                        "ontap": {
+                            "path": "/lovelace/gates"
+                        }
+                    }
+                }
+            },
+            "child2": {
+                "card": {
+                    "image": "/local/iconHA/Landscape.jpg",
+                    "actions": {
+                        "ontap": {
+                            "path": "/lovelace/ground-Outdoor"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "child8": {
+        "button": {
+            "name": null,
+            "template": null,
+            "entity": null
+        }
+    }
+}
