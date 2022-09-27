@@ -46,7 +46,7 @@ class Config extends ChangeNotifier {
 
   String? get accessToken {
     return _configState == CurrentIpState.serverExists
-        ? _activeServer.accessToken
+        ? _activeServer.longLivedToken
         : throw Exception("no server obtained");
   }
 

@@ -44,7 +44,7 @@ class _ListServersState extends ConsumerState<ListServers> {
                                       CurrentIpState.serverExists &&
                                   config.activeServer.state ==
                                       ActiveServerAuth.authorized
-                              ? const WebView()
+                              ? const HAWebView()
                               : const LogIn();
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: ((context) => page)));

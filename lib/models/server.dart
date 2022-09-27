@@ -37,7 +37,7 @@ class ServerConfig {
     return this;
   }
 
-  String? get accessToken {
+  String? get longLivedToken {
     return users[activeUser]?.longToken;
   }
 }

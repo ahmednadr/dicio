@@ -16,7 +16,7 @@ class Auth {
   final String ip;
   final String port;
   late String address;
-  late User ReturnUser;
+  late User returnUser;
 
   /// Takes the values [ip] and [port]. retruns an instance for autherization.
   ///
@@ -30,10 +30,10 @@ class Auth {
         await _getAuthToken(username, password, await _getFlowId());
     await _connectWS(await _getAccessToken(authToken));
 
-    if (ReturnUser.longToken == '') {
+    if (returnUser.longToken == '') {
       throw Exception('Token is empty');
     }
-    return ReturnUser;
+    return returnUser;
   }
 
   /// returns a [flow_id] thats refers to the login session.
@@ -54,8 +54,8 @@ class Auth {
       "password": "$password",
       "client_id": "http://acs"
     });
-    ReturnUser = User();
-    ReturnUser.username = username;
+    returnUser = User();
+    returnUser.username = username;
     return r.data['result'];
   }
 
@@ -116,8 +116,8 @@ class Auth {
       }
     }).asFuture();
 
-    ReturnUser.longToken = token;
+    returnUser.longToken = token;
 
-    return ReturnUser;
+    return returnUser;
   }
 }

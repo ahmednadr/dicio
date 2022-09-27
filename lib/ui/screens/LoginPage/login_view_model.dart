@@ -48,6 +48,6 @@ class LoginViewModel extends StateNotifier<LoginStates> {
 
   void goNext(BuildContext context) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: ((context) => const WebView())));
+        context, MaterialPageRoute(builder: ((context) => HAWebView())));
   }
 }
