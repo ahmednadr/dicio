@@ -1,4 +1,4 @@
 const configBox = 'configBox';
-const activeIpKey = 'activeIp';
+const activeServerKey = 'activeIp';
 
 const activeUserKey = 'activeUser';

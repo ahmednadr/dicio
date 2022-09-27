@@ -51,10 +51,10 @@ class _ScanPageState extends ConsumerState<ScanPage>
                   duration: const Duration(milliseconds: 250),
                   switchInCurve: Curves.easeOutBack,
                   switchOutCurve: Curves.easeOutBack,
-                  transitionBuilder:
-                      (Widget child, Animation<double> animation) {
-                    return ScaleTransition(scale: animation, child: child);
-                  },
+                  // transitionBuilder:
+                  //     (Widget child, Animation<double> animation) {
+                  //   return ScaleTransition(scale: animation, child: child);
+                  // },
                   child: _child),
             ),
             Positioned(
@@ -112,10 +112,10 @@ class _ScanPageState extends ConsumerState<ScanPage>
         );
         break;
       case ScanStates.timeout:
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          _controller.reset();
-          vm.handleTimeout(context);
-        });
+        // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        _controller.reset();
+        vm.handleTimeout(context);
+        // });
         break;
       case ScanStates.scanning:
         connectOpacity = 0;

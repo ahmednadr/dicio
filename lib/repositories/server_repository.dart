@@ -3,4 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum IpState { notAuthorized, authorized }
 
-class ServerRepository extends ChangeNotifier {}
+final loginViewModelProvider = StateNotifierProvider<ServerRepository, IpState>(
+  (ref) {
+    return ServerRepository();
+  },
+);
+
+class ServerRepository extends StateNotifier<IpState> {
+  ServerRepository() : super(IpState.notAuthorized);
+}

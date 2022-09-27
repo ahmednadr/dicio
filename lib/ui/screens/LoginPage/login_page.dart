@@ -14,10 +14,10 @@ class LogIn extends ConsumerStatefulWidget {
 class _LogInState extends ConsumerState<LogIn> with TickerProviderStateMixin {
   final formKey = GlobalKey<FormState>();
 
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 1),
-    vsync: this,
-  );
+  // late final AnimationController _controller = AnimationController(
+  //   duration: const Duration(seconds: 1),
+  //   vsync: this,
+  // );
   String? _username;
   String? _password;
   late LoginViewModel vm;

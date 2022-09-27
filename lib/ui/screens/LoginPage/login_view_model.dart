@@ -4,6 +4,7 @@ import 'package:test/api/auth.dart';
 import 'package:test/api/config.dart';
 import 'package:test/models/server.dart';
 import 'package:test/ui/screens/LoginPage/login_states.dart';
+import 'package:test/ui/screens/WebView/web_view_page.dart';
 
 class LoginViewModel extends StateNotifier<LoginStates> {
   LoginViewModel({required this.auth, required this.config})
@@ -29,9 +30,11 @@ class LoginViewModel extends StateNotifier<LoginStates> {
       try {
         state = LoginStates.loading;
         var user = await auth.authenticate(username!, password!);
-        config.newServer(auth.ip, ServerConfig(username, user));
+        await config.newServer(
+            auth.ip, ServerConfig(auth.ip, username).addUser(user));
         state = LoginStates.success;
       } catch (_) {
+        // rethrow;
         state = LoginStates.error;
       }
     }
@@ -45,9 +48,6 @@ class LoginViewModel extends StateNotifier<LoginStates> {
 
   void goNext(BuildContext context) {
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: ((context) => Text(
-                "${config.activeIp} token ${config.activeServer.accessToken}"))));
+        context, MaterialPageRoute(builder: ((context) => const WebView())));
   }
 }

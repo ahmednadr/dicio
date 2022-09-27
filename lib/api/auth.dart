@@ -30,7 +30,7 @@ class Auth {
         await _getAuthToken(username, password, await _getFlowId());
     await _connectWS(await _getAccessToken(authToken));
 
-    if (ReturnUser.accessToken == '') {
+    if (ReturnUser.longToken == '') {
       throw Exception('Token is empty');
     }
     return ReturnUser;
@@ -116,7 +116,7 @@ class Auth {
       }
     }).asFuture();
 
-    ReturnUser.accessToken = token;
+    ReturnUser.longToken = token;
 
     return ReturnUser;
   }

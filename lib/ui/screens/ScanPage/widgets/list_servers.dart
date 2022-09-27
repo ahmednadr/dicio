@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test/api/config.dart';
 import 'package:test/api/scan.dart';
+import 'package:test/models/active_user_state.dart';
 import 'package:test/ui/screens/LoginPage/login_page.dart';
+import 'package:test/ui/screens/WebView/web_view_page.dart';
 
 class ListServers extends ConsumerStatefulWidget {
   const ListServers({
@@ -38,9 +40,12 @@ class _ListServersState extends ConsumerState<ListServers> {
                       child: InkWell(
                         onTap: () async {
                           await config.changeIp(ips.elementAt(index));
-                          final page = config.activeServer.accessToken == ''
-                              ? const LogIn()
-                              : const Text("auth");
+                          final page = config.configState ==
+                                      CurrentIpState.serverExists &&
+                                  config.activeServer.state ==
+                                      ActiveServerAuth.authorized
+                              ? const WebView()
+                              : const LogIn();
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: ((context) => page)));
                         },
